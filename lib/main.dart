@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import './botoes.dart';
+import './dados.dart';
+import './lista_perguntas.dart';
+//import './resposta.dart';
+
 
 void main() {
   runApp(const PerguntasApp());
@@ -26,46 +29,50 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home>  {
 
-  final perguntas = [
-    'Qual a sua cor favorita?',
-    'Qual o seu animal favorito?',
-    'Qual é o seu time?',
-  ];
-
+  final dados = perguntasRespostas;
+  List respostas = [];
   var indicePergunta = 0;
 
-  void responder() {
-    if (indicePergunta < perguntas.length - 1) {
-      indicePergunta++;
-    } else {
-      indicePergunta = 0;
+  void responder(String r) {
+    String p = dados[indicePergunta].pergunta;
+    respostas.add({'pergunta': p, 'resposta': r});
+    indicePergunta++;
+    setState(() {});
     }
-  }
+
+    void reiniciar() {
+      setState(() {
+        indicePergunta = 0;
+        respostas = [];
+      });
+    }
+
+    bool get temPergunta {
+      return indicePergunta < dados.length;
+    }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Daniel Martins', style: TextStyle(fontSize: 30)),
+        title: const Text(
+          'Daniel Quiz',
+          style: TextStyle(fontSize: 30)
+        ), // Text
         centerTitle: true,
         backgroundColor: Colors.amber,
         toolbarHeight: 80,
-      ),
+      ), // AppBar
       body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          children: [
-            Text(
-              perguntas[indicePergunta], 
-              style: TextStyle(fontSize: 40)
-            ),
-            Botoes(resp: responder),
-            Botoes(resp: responder),
-            Botoes(resp: responder),
-          ],
-        ),
-      ),
-    );
+        padding: const EdgeInsets.all(20),
+        child: temPergunta
+          ? ListaPerguntas(
+              indicePergunta: indicePergunta,
+              perguntas: dados,
+              responder: responder,
+            ) // ListaPerguntas
+          : null //Resultado(respostas, reiniciar),
+      ), // Padding
+    ); // Scaffold
   }
-
 }
