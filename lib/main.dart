@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import './dados.dart';
 import './lista_perguntas.dart';
-//import './resposta.dart';
-
+// import './resposta.dart';
+import 'resultado.dart';
 
 void main() {
   runApp(const PerguntasApp());
@@ -71,7 +71,7 @@ class HomeState extends State<Home>  {
               perguntas: dados,
               responder: responder,
             ) // ListaPerguntas
-          : null //Resultado(respostas, reiniciar),
+          : Resultado(respostas, reiniciar),
       ), // Padding
     ); // Scaffold
   }
